@@ -117,7 +117,7 @@ string output = await agent.RunAsync(
 
 When **`UseSearch = true`**, the planning step uses **`SwitchLLM.LLM.SearchQuery(...)`**. Execution against SQL is unchanged.
 
-> The planning prompt contains the phrase â€œwrite the term `UseSearch`â€¦â€. Internally, the agent already routes to **Search** whenever `UseSearch` is on; you donâ€™t need to add anything else.
+> The planning prompt contains the phrase "write the term `UseSearch`". Internally, the agent already routes to **Search** whenever `UseSearch` is on; you don't need to add anything else.
 
 ---
 
@@ -141,14 +141,14 @@ agent.KeepEpisodics = false;                // false => clear dbo.Episodics at r
 
   * Requires `CommandType == Text`.
   * Runs **`MyndSprout.Security.SqlMutationScanner`** (detects DML/DDL/temp tables/transactions/perms/external, etc.).
-  * If risky â†’ the step is rejected.
+  * If risky the step is rejected.
 * **Return behavior** in read-only mode: the agent **executes allowed queries** and **returns the SQL result XML immediately** (it does **not** return the raw `<SqlXmlRequest>`).
 
 Use this for dashboards, UIs, or initial exploration of production data.
 
 ---
 
-## Whatâ€™s persisted in `dbo.Episodics`?
+## What's persisted in `dbo.Episodics`?
 
 One row per epoch:
 
@@ -281,10 +281,10 @@ General helpers in `Common`:
 ## Troubleshooting
 
 * **Malformed XML from LLM/Search**
-  The agent uses `Common.FromXml<T>` with `ExtractXml` to be tolerant. Show the XSD (`InputXmlSchemas.SqlXmlRequestXsd()`) in prompts and require â€œReturn ONLY one well-formed `<SqlXmlRequest>...</SqlXmlRequest>`.â€
+  The agent uses `Common.FromXml<T>` with `ExtractXml` to be tolerant. Show the XSD (`InputXmlSchemas.SqlXmlRequestXsd()`) in prompts and require "Return ONLY one well-formed `<SqlXmlRequest>...</SqlXmlRequest>`."
 
 * **Read-only block**
-  If you see: â€œRead-only mode: Potentially mutating SQL detected; blocked.â€ â†’ The mutation scanner matched DML/DDL/etc. Rephrase the objective for descriptive analytics or disable `QueryOnly` (not recommended on prod).
+  If you see: "Read-only mode: Potentially mutating SQL detected; blocked." The mutation scanner matched DML/DDL/etc. Rephrase the objective for descriptive analytics or disable `QueryOnly` (not recommended on prod).
 
 * **Schema handling confusion**
   Set `ReadFullSchema = true` to always fetch a fresh snapshot each epoch. Otherwise, explicitly request schema via `<SqlXmlRequest IsSchemaRequest="true">`.
@@ -349,4 +349,3 @@ string result = await sql.ExecuteAsyncStr("""
 * Target framework: **.NET 9.0**
 * ADO provider: **Microsoft.Data.SqlClient 6.1.1**
 * LLM integration: **`SwitchLLM.LLM.Query(...)`** and **`SwitchLLM.LLM.SearchQuery(...)`** are used by the agent. (The `ModelKey` is exposed on `SqlAgent`; pass/consume it per your `SwitchLLM` implementation if desired.)
-

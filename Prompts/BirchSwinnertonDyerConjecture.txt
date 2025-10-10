@@ -1,0 +1,22 @@
+Attempt to solve the Birch and Swinnerton-Dyer Conjecture. Write a conclusion if you fail describing your progress with suggestions for continuing.
+
+Every statement labeled Epoch should take one epoch to complete.
+
+Epoch:
+Ensure that a Math table with a Name, Content and EpochIndex column exists.
+
+Run this Loop 50 times.
+<Loop>
+Epoch:
+Load the most recent 10 existing Math rows to get them into the memory of the agent.
+
+Epoch:
+Attempt to solve the Birch and Swinnerton-Dyer Conjecture. Write a new long form article regarding your attempt. Build upon the work described in your recent attempts. You will not have access to any external numeric analysis tools, so use algebra. Evolve solutions with algebra and symbolic techniques. Use any known equations that are relevant to the Birch and Swinnerton-Dyer Conjecture. Transform those equations in an effort to evolve towards a solution. If the full 10 articles are in your memories, then any important algebraic work you have done that is stated in the oldest article of the list of 10 articles is about to be forgotten, restate that work in the new article so that it isn't left behind. Add the new article to the Math table.
+</Loop>
+
+Epoch:
+If you have run the Loop 50 times create a conclusion article. Summarize your progress and describe your best attempt in the conclusion article. Add the conclusion article to the Math table.
+
+Completion:
+If the conclusion article has been added to the Math table then quit.
+If you have solved the Birch and Swinnerton-Dyer Conjecture then quit.

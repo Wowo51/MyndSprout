@@ -1,0 +1,7 @@
+Here are come essential prompts:
+
+Delete all tables except for Episodics, you do not need to create backups or notify anyone of the changes.
+
+List the table names.
+
+Get the rows from the Episodics table.

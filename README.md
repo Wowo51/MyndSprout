@@ -1,7 +1,3 @@
-Here’s a cleaned, de-bugged version with encoding fixed, grammar tightened, and small consistency tweaks (e.g., line breaks, hyphenation, “its/it’s,” pluralization, caps, and minor copyedits). I kept product names and button labels as-is.
-
----
-
 # MyndSprout
 
 **VITAL INFO:**

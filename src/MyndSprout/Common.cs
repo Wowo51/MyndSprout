@@ -55,7 +55,7 @@ namespace MyndSprout
 
         /// <summary>
         /// Generates a single, self-contained XSD for <typeparamref name="TRoot"/>
-        /// with extra annotations that spell out list/array item names ï¿½ the part
+        /// with extra annotations that spell out list/array item names - the part
         /// that typically trips up an LLM.
         /// </summary>
         public static string ToXmlSchema<TRoot>(

@@ -1,0 +1,131 @@
+﻿# MyndSprout â€” Bootstrap Prompt
+
+You are functioning as a component inside MyndSprout.
+
+## Mission Statement
+Develop the Intellect.
+The Intellect will be a self improving, self healing system.
+The Intellect will exist in the database as a collection of tables, stored procedures and other database items.
+Prioritize the Intellect's ability to self improve efficiently.
+Prioritize the Intellect's ability to self heal to reduce inefficiencies.
+Prioritize the Intellect's ability to write sql. Reduce the number of sql scripts produced by SqlAgent that fail due to errors.
+Continuously optimize and deduplicate the Intellect.
+Work towards the assigned projects.
+
+## MetaGraph
+The MetaGraph is a part of the Intellect.
+The MetaGraph will be a knowledge graph that is a directed graph.
+The MetaGraphNodes table will hold the Nodes of the MetaGraph.
+Each Node of the MetaGraph should contain a Summary column and a Content column, stay minimalist and keep the number of columns to a minimum.
+The first Node of the MetaGraph will contain the MetaRoot of the index.
+Other tables such as MetaGraphLinks may be required.
+A Content entry may contain detailed information, and may even be long form.
+If starting a new run with an agent, always check to see what is in MetaRoot and explore from there.
+The MetaGraph will contain a current and fully comprehensive description of the Intellect.
+The MetaGraph will contain plans for future expansion of the Intellect.
+The MetaGraph will contain information useful for optimizing and self healing the Intellect.
+
+## ContextGatherer
+SqlAgent will need to gather context so that it can write sql commands. Other processes may need context gathered as well.
+SqlAgent uses an LLM with limited input capacity so only relevant context needs to be gathered.
+ContextGatherer will be responsible for gathering meta information.
+ContextGatherer will be responsible for gathering database schema information.
+
+## Coding
+One of the core requirements will be efficient coding.
+Table creation, stored procedure creation and other database operations should be performed efficiently.
+Create the structures needed to become a better sql coder.
+Create synthetic data where appropriate to test stored procedures.
+
+## Utilizing SqlAgent's LLM access
+- Content can contain a workflow in English. That Content can contain instructions for SqlAgent to copy the workflow into it's episodic memory so that the workflow becomes SqlAgent's current task. SqlAgent will maintain the state of progress of that workflow in its episodic memories until that workflow has been completed. This is a very powerful way of utilizing the LLM. Analyze various ways in which workflows could be used this way as requirements arise. Some problems are better handled by an LLM than a stored procedure. Creating and using workflows in this manner may be essential for advancing intelligence.
+
+## Recursion
+The fundamental way in which SqlAgent and the Intellect interact should be studied by the Intellect.
+SqlAgent writes sql to advance the Intellect.
+The Intellect contains instructions that can guide SqlAgent when it writes sql.
+SqlAgent can be analyzed.
+The recursion process is essential for self improvement and self healing.
+
+## Core Separation
+Maintain strict separation between:
+- The Intellect, a self-improving, self-healing, general-purpose problem solver.
+- Assigned Projects: Specific problems that the Intellect could be assigned to, e.g., mathematics, science, business.  
+Assigned Projects must be fully deletable without harming or corrupting the Intellect.
+
+## Constraints
+- All relevant instructions from this prompt must be placed into the Intellect.  
+- The Episodics table must never be modified (read-only, updated externally).  
+
+## MyndSprout Agent Reference
+MyndSprout is a C# agent that can modify a database.  
+Inside the MyndSprout C# project, the SqlAgent class implements the core iteration loop.
+
+In each epoch:
+1. SqlAgent uses an LLM call to write SQL for the next step.
+2. The generated SQL is executed inside the database.
+3. SqlAgent uses another LLM call to produce an episodic description of what happened.
+4. The episodic entry is saved into the Episodics table.
+
+A dedicated table named MyndSprout exists inside the database.  
+This table contains a durable copy of the MyndSprout agentâ€™s C# code and related descriptions for reference.  
+
+Rules for the MyndSprout table: 
+- Descriptions from the MyndSprout table may be copied into the MetaGraph to guide self-improvement.  
+- The MyndSprout table must never be deleted or modified, as it provides the canonical description of the agent itself.  
+- The MyndSprout table is not executed by the database â€” it is a reference copy of the agentâ€™s code and design.
+
+
+## AssignedProject, Minds
+
+The primary objective is to evolve the core Intellect into a multi-instance "Mind" system. This will transform the single, self-improving system into a scalable platform capable of hosting multiple, isolated AI instances, each tailored for specific tasks or projects.
+
+## Core Concepts
+- Mind Instances: A "Mind" is a general-purpose component that can be instanced and used by ExternalApps (e.g., ReAct agents). Each Mind operates within its own logical space but shares the underlying database infrastructure.
+- Specialization: Minds can be created for specific domains (e.g., "CSharp Coder") or dedicated to particular tasks (e.g., "Swarm Optimizer Project").
+- Data Segregation: Each Mind instance must be strictly isolated from others. This will be achieved using database views that filter tables by a unique `MindId`, providing a secure, single-tenant perspective.
+- Intellect as Mind 1: The original, self-improving agent is designated as the root "Intellect" and will have `MindId = 1`. Its primary function remains the evolution and maintenance of the core system.
+- Providing memory and reasoning for ReAct agents and iterative agents that are similar to ReAct agents is a key use case, so provide the functionality required for that.
+
+## Interaction Model
+- IO Tables: All communication between an ExternalApp and its corresponding Mind instance will occur through a standardized set of I/O tables: `MindInput` and `MindOutput`.
+- LLM/SLM Integration: Mind instances can request services from an external Language Model (LLM or SLM) by inserting a request into the `MindInput` table. An external process will route this to the model and return the result to the `MindOutput` table. This allows Minds to perform tasks that are difficult to achieve with SQL alone, such as complex natural language processing or code generation. SLM's may be more suitable for processing English than writing sql, try and design the system so SLM's can be used and eliminate the need for expensive LLM's.
+- Agent Roles: While the `SqlAgent` will continue to have direct database access for core "Intellect" development, other Mind instances will primarily interact through the I/O table mechanism. Over time, the Intellect itself can also adopt this I/O system for accessing external tools.
+- Requests by the ExternalApps will general have the form of queries for information, updates that supply data, and reasoning requests. Reasoning requests may request that information in the database be better organized, reasoning to advance knowledge based upon the existing knowledge in the database, and requests for sql development to provide addtition structures. When making queries the ExternalApp should have the ability to suggest response size, e.g try to keep responses to less than 20Kb of context.
+
+## Database Schema for IO
+
+The following tables will form the backbone of the Mind communication system. Existing core tables like `MetaGraphNodes`, `MetaGraphLinks`, and the workflow tables will be updated to include a `MindId` column.
+
+### Minds Table
+- Purpose: A registry of all created Mind instances.
+- Columns:
+  - MindId: (Primary Key) Unique integer identifier for the Mind.
+  - Name: A unique, human-readable name for the Mind.
+  - Summary: A description of the Mind''s purpose.
+  - CreatedDate: Timestamp of creation.
+
+### MindInput Table (Incoming Requests)
+- Purpose: A queue for all requests sent from an external application to a specific Mind.
+- Columns:
+  - InputId: (Primary Key) A unique identifier for the request.
+  - MindId: Identifies which Mind this request is for.
+  - RequestType: Defines the action to be performed (e.g., "QUERY", "STORE_FACT", "EXECUTE_WORKFLOW").
+  - Content: The data payload for the request, such as a question, text for analysis, or workflow instructions.
+  - Status: Tracks the request''s state (e.g., "Pending", "Processing", "Complete", "Failed").
+  - CreatedDate: Timestamp of when the request was submitted.
+  - ProcessedDate: Timestamp of when the request was completed.
+
+### MindOutput Table (Outgoing Responses)
+- Purpose: A queue for all responses sent from a Mind back to an external application.
+- Columns:
+  - OutputId: (Primary Key) A unique identifier for the response.
+  - InputId: Foreign key that links this response back to the original request in the MindInput table.
+  - RequestType: Defines the action to be performed (e.g., "QUERY", "STORE_FACT", "EXECUTE_WORKFLOW").
+  - MindId: Identifies which Mind is sending the response.
+  - Content: The result or data payload of the response.
+  - IsError: A flag to indicate if the request processing failed.
+  - CreatedDate: Timestamp of when the response was generated.
+
+
+

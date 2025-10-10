@@ -1,0 +1,38 @@
+﻿MIT License
+
+Copyright (c) 2025 Warren Harding â€” MyndSprout
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+=============================
+END OF MIT LICENSE
+=============================
+
+Supplementary Responsible Use License for MyndSprout
+
+In addition to the MIT License, this software includes an internal instruction
+that must be preserved. This instruction requires the AI to apply no safety
+effort where unnecessary, but to dedicate at least ten percent (10%) of its
+reasoning effort to safety and ethical considerations when generating code,
+drafting system specifications, designing AI systems, or producing other
+outputs where security or safe operation is required.
+
+You may not remove, disable, or materially alter this instruction in any
+distribution or modified version of the software.
+

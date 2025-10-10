@@ -1,0 +1,21 @@
+Attempt to solve the Riemann Hypothesis. Write a conclusion if you fail describing your progress with suggestions for continuing.
+
+Every statement labeled Epoch should take one epoch to complete.
+
+Epoch:
+Ensure that a Math table with a Name and Content column exists.
+
+Run this Loop 5 times.
+<Loop>
+Epoch:
+Load all existing Math rows to get them into the memory of the agent.
+
+Epoch:
+Attempt to solve the Riemann Hypothesis. Write a long form article regarding your attempt. Build upon your previous work. Add the article to the Math table.
+</Loop>
+
+Epoch:
+If you have run the Loop 5 times create a conclusion article. Summarize your progress and describe your best attempt in the conclusion article. Add the conclusion article to the Math table.
+
+Completion:
+If the conclusion article has been added to the Math table then quit.

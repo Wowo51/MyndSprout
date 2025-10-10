@@ -1,0 +1,184 @@
+﻿<Window x:Class="MyndSproutApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyndSproutApp"
+        mc:Ignorable="d"
+        Title="MyndSprout" Height="450" Width="800" WindowState="Maximized">
+    <Window.Resources>
+        <!-- Simple on/off boolean to Visibility -->
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Window.Resources>
+
+    <DockPanel LastChildFill="True">
+        <!-- Toolbar (wraps vertically) -->
+        <Border DockPanel.Dock="Top" Padding="8" Background="#FAFAFA" BorderBrush="#DDD" BorderThickness="0,0,0,1">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <WrapPanel Margin="0" Orientation="Horizontal" ItemWidth="Auto" ItemHeight="Auto">
+
+                    <Button x:Name="FileButton" Content="File ▾" MinWidth="100" Margin="0,0,10,10" Click="FileButton_Click">
+                        <Button.ContextMenu>
+                            <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                <MenuItem Header="Open Prompt..." Command="{Binding OpenPromptCommand}" />
+                                <Separator />
+                                <MenuItem Header="Save Prompt" Command="{Binding SavePromptCommand}" />
+                                <MenuItem Header="Save Prompt As..." Command="{Binding SavePromptAsCommand}" />
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+
+                    <Button Content="StartAgent"
+                        Command="{Binding StartCommand}"
+                        MinWidth="120" Margin="0,0,10,10"/>
+                                    <Button Content="StopAgent"
+                        Command="{Binding StopCommand}"
+                        MinWidth="120" Margin="0,0,10,10"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,10" VerticalAlignment="Center">
+                        <TextBlock Text="MaxEpochs:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <TextBox Text="{Binding MaxEpochs, UpdateSourceTrigger=PropertyChanged}"
+                             Width="60"
+                             VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,10" VerticalAlignment="Center">
+                        <CheckBox Content="UseIsComplete"
+                          IsChecked="{Binding UseIsComplete}"
+                          IsEnabled="{Binding IsNotRunning}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,10" VerticalAlignment="Center">
+                        <CheckBox Content="QueryOnly"
+                            IsChecked="{Binding QueryOnly}"
+                            IsEnabled="{Binding IsNotRunning}"
+                            ToolTip="When enabled, the agent must only run SELECT/READ queries (no mutations/DDL)." />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,10" VerticalAlignment="Center">
+                        <CheckBox Content="NaturalLanguageResponse"
+                          IsChecked="{Binding NaturalLanguageResponse}"
+                          IsEnabled="{Binding IsNotRunning}"
+                          ToolTip="When enabled, the agent will produce a natural-language response in addition to any structured output."/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,10" VerticalAlignment="Center">
+                        <TextBlock Text="Db Name:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <TextBox Text="{Binding DatabaseName, UpdateSourceTrigger=PropertyChanged}"
+                             Width="160"
+                             VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Logging controls -->
+                    <Button Content="CopyLog" MinWidth="100" Margin="0,0,10,10"
+                            Command="{Binding CopyLogCommand}"/>
+                    <Button Content="ClearLog" MinWidth="100" Margin="0,0,10,10"
+                            Command="{Binding ClearLogCommand}"/>
+                    <Button Content="ClearAllButLast" MinWidth="140" Margin="0,0,10,10"
+                            Command="{Binding ClearLogExceptLastCommand}"/>
+
+                    <Button Content="ImportFolder" MinWidth="120" Margin="0,0,10,10"
+                        Command="{Binding ImportFolderCommand}" />
+
+                    <Button Content="ExportData" MinWidth="120" Margin="0,0,10,10"
+                        Command="{Binding ExportDataCommand}" />
+
+                    <Button Content="ExportSchema" MinWidth="120" Margin="0,0,10,10"
+                        Command="{Binding ExportSchemaCommand}" />
+
+                    <Button Content="ExportSchemaXml" MinWidth="140" Margin="0,0,10,10"
+                        Command="{Binding ExportSchemaXmlCommand}" />
+
+                    <StackPanel Margin="0,0,10,10" MinWidth="150" Visibility="Collapsed">
+                        <TextBlock Text="ModelKey"/>
+                        <TextBox Text="{Binding ModelKey, UpdateSourceTrigger=PropertyChanged}"
+                            ToolTip="LLM model key (e.g., gpt-4.1-nano, gpt-4o, o4-mini, etc.)"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,10" VerticalAlignment="Center">
+                        <CheckBox Content="ContainServer"
+                            IsChecked="{Binding ContainServer}"
+                            IsEnabled="{Binding IsNotRunning}"
+                            ToolTip="Run SqlContain with instance scope before starting the agent (requires sysadmin)." />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,10" VerticalAlignment="Center">
+                        <CheckBox Content="ContainDatabase"
+                            IsChecked="{Binding ContainDatabase}"
+                            IsEnabled="{Binding IsNotRunning}"
+                            ToolTip="Run SqlContain with database scope before starting the agent (requires sysadmin on the instance and access to the DB)." />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,10" VerticalAlignment="Center">
+                        <CheckBox Content="UseSearch"
+                              IsChecked="{Binding UseSearch}"
+                              IsEnabled="{Binding IsNotRunning}"
+                              ToolTip="When enabled, the agent may use web search to plan the next SQL step." />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,10" VerticalAlignment="Center">
+                        <CheckBox Content="KeepEpisodics"
+                              IsChecked="{Binding KeepEpisodics}"
+                              IsEnabled="{Binding IsNotRunning}"
+                              ToolTip="When checked, existing rows in dbo.Episodics are preserved on start; when unchecked, they are deleted." />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,10" VerticalAlignment="Center">
+                        <TextBlock Text="SandBoxFolder:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <TextBox Text="{Binding SandBoxFolder, UpdateSourceTrigger=PropertyChanged}"
+                           Width="280" VerticalAlignment="Center" />
+                                        <Button Content="…" Width="28" Height="24" Margin="6,0,0,0"
+                          Command="{Binding BrowseSandBoxFolderCommand}"
+                          ToolTip="Select a folder that contains Input and Output subfolders."/>
+                    </StackPanel>
+
+                    <Button Content="Update Prompt" Command="{Binding UpdatePromptCommand}" MinWidth="120" Margin="0,0,10,10"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,10" VerticalAlignment="Center">
+                        <TextBlock Text="Epoch:" Margin="0,0,4,0"/>
+                        <TextBlock Text="{Binding CurrentEpoch}" FontWeight="Bold"/>
+                        <TextBlock Text="/" Margin="4,0,4,0"/>
+                        <TextBlock Text="{Binding MaxEpochs}"/>
+                    </StackPanel>
+                </WrapPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Content: Input / Output panes -->
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <GroupBox Header="Input" Grid.Column="0" Margin="0,0,8,0">
+                <Grid>
+                    <TextBox Text="{Binding Prompt, UpdateSourceTrigger=PropertyChanged}"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Auto"
+                             FontFamily="Consolas"
+                             TextWrapping="Wrap"
+                             Margin="8"/>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Header="Output (most recent lines)" Grid.Column="1" Margin="8,0,0,0">
+                <Grid>
+                    <TextBox Text="{Binding Output, Mode=OneWay}"
+                         IsReadOnly="True"
+                         AcceptsReturn="True"
+                         VerticalScrollBarVisibility="Auto"
+                         HorizontalScrollBarVisibility="Auto"
+                         FontFamily="Consolas"
+                         TextWrapping="Wrap"
+                         Margin="8"
+                         TextChanged="Output_TextChanged"/>
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </DockPanel>
+</Window>

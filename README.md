@@ -68,10 +68,12 @@ Here are three ways of getting involved in self-improving code generation.
    <br>
 
 I’ve included a license supplement requiring users to spend at least 10% of their LLM expenditures on ensuring MyndSprout behaves ethically. MyndSprout has that requirement embedded in its code. In all cases the 10% ethical-expenditure requirement will remain. <br>
+<br>
 Where “features” are requested I suspect that most will want custom self-improving databases to be developed. For example, a certain form of scientific researcher may be desired, or strong enterprise decision intelligence may be requested. MyndSprout’s self-improving, code-generating nature allows it to rapidly proceed down different development paths. <br>
-I am providing code generation services in C# and SQL.
-**10x coder == 1/10 cost.**
-Estimates: [TranscendAI.tech](https://TranscendAI.tech)
-
+<br>
+I am providing code generation services in C# and SQL.<br>
+**10x coder == 1/10 cost.**<br>
+Estimates: [TranscendAI.tech](https://TranscendAI.tech)<br>
+<br>
 ![Footer Logo](MyndSprout.jpg)
 *Copyright © 2025 Warren Harding — TranscendAI.tech — MyndSprout*

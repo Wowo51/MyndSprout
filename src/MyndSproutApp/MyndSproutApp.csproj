@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Icon8.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Icon8.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MyndSprout\MyndSprout.csproj" />
+    <ProjectReference Include="..\SqlContain\src\SqlContain\SqlContain.csproj" />
+    <ProjectReference Include="..\SqlTools\src\SqlTools\SqlTools.csproj" />
+  </ItemGroup>
+
+</Project>
+

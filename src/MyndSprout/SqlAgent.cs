@@ -15,7 +15,7 @@ namespace MyndSprout
     /// <summary>
     /// A simple, iterative SQL agent. Each epoch:
     ///  1) Builds context (DB schema + last query results, if any)
-    ///  2) Asks the LLM for an <SqlTextRequest>â€¦</SqlTextRequest> payload
+    ///  2) Asks the LLM for an <SqlTextRequest>...</SqlTextRequest> payload
     ///  3) Executes it via SqlStrings.ExecuteAsyncStr
     ///  4) If it was a query, folds results into next-epoch context
     ///  5) Calls IsComplete; if true, stops
@@ -85,7 +85,7 @@ namespace MyndSprout
                 }
                 else
                 {
-                    // No prior episodicâ€”just start clean rather than returning early
+                    // No prior episodics, just start clean rather than returning early
                     CallLog("No prior episodic record found. Starting fresh.");
                 }
             }
@@ -326,7 +326,7 @@ namespace MyndSprout
                 sb.AppendLine();
             }
 
-            sb.AppendLine("Return ONLY one well-formed <SqlXmlRequest>â€¦</SqlXmlRequest> payload. No commentary.");
+            sb.AppendLine("Return ONLY one well-formed <SqlXmlRequest>...</SqlXmlRequest> payload. No commentary.");
             return sb.ToString();
         }
 
@@ -380,7 +380,7 @@ namespace MyndSprout
             => "Compared intent vs result; note mismatches, nulls, and row counts. (Implement finer diff if needed.)";
 
         private static string DerivePlanSnippet(string? prior, string outXml)
-            => "Goalâ†’subgoals updated. If rows missing, add targeted SELECT/CREATE/UPDATE next.";
+            => "Goal subgoals updated. If rows missing, add targeted SELECT/CREATE/UPDATE next.";
 
         private static string ExtractNextStepHint(string inXml)
             => "Prepare minimal parameterized SQL aligned with the strict XSD; prefer Query unless DDL/DML required.";

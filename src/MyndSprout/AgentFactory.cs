@@ -45,7 +45,7 @@ namespace MyndSprout
 
         /// <summary>
         /// Create (if missing) and connect to a database using a DEFAULT server connection string.
-        /// Default can be overridden by env vars: AGENTICSQL_SERVER_CONNSTR or AGENTICSQL_CONNSTR,
+        /// Default can be overridden by env vars: MYNDSPROUT_SERVER_CONNSTR or MYNDSPROUT_CONNSTR,
         /// or by passing overrideDefaultServerConnStr.
         /// Fallback: (localdb)\MSSQLLocalDB with Integrated Security.
         /// </summary>
@@ -72,8 +72,8 @@ namespace MyndSprout
         {
             if (!string.IsNullOrWhiteSpace(overrideDefault)) return overrideDefault!;
             var env =
-                Environment.GetEnvironmentVariable("AGENTICSQL_SERVER_CONNSTR") ??
-                Environment.GetEnvironmentVariable("AGENTICSQL_CONNSTR");
+                Environment.GetEnvironmentVariable("MYNDSPROUT_SERVER_CONNSTR") ??
+                Environment.GetEnvironmentVariable("MYNDSPROUT_CONNSTR");
             if (!string.IsNullOrWhiteSpace(env)) return env!;
             return "Server=(localdb)\\MSSQLLocalDB;Integrated Security=True;TrustServerCertificate=True";
         }

@@ -9,14 +9,8 @@ You can also define a self improving, self healing system and set MyndSprout for
 
 ---
 
-Is MyndSprout now closer to a true Godel machine than it's competitors?</br>
-</br>
-According to ChatGPT-5 it is. [Godel article on LinkedIn](https://www.linkedin.com/pulse/step-closer-self-improving-godel-machine-transcendai-tech-9tigc) </br>
-</br>
-MyndSprout was rated by ChatGPT-5 as the best overall self improving AI architecture out of ten architectures.</br>
-![Compare](Compare.png)</br>
-![Ranked](Ranked.png)</br>
-[Ranking article on LinkedIn](https://www.linkedin.com/pulse/ten-self-improving-software-architectures-transcendai-tech-07xfc/)</br>
+MyndSprout was rated by ChatGPT-5 as the best overall self improving AI architecture.</br>
+[Rank Statement](Rank.md)</br>
 
 ---
 

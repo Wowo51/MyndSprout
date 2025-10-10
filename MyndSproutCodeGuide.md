@@ -1,6 +1,6 @@
-﻿# MyndSprout: Developer Guide
+# MyndSprout: Developer Guide
 
-This guide shows how to use the library in real code, with **`SqlAgent`** as the primary entry point, and the lower-level XML/string faÃ§ade (`SqlStrings`) for finer control.
+This guide shows how to use the library in real code, with **`SqlAgent`** as the primary entry point, and the lower-level XML/string façade (`SqlStrings`) for finer control.
 
 ---
 
@@ -22,7 +22,7 @@ class Program
             maxEpochs: 5 // hard stop after N planning steps
         );
 
-        // 2) Optional agent configuration (see â€œSqlAgent knobsâ€ below)
+        // 2) Optional agent configuration (see “SqlAgent knobs” below)
         agent.ModelKey = "gpt-5-nano";
         agent.UseIsComplete = true;            // let the agent decide when done
         agent.QueryOnly = false;               // true => read-only mode
@@ -92,18 +92,23 @@ string output = await agent.RunAsync(
 
 1. **Context prep**
 
-   * If `ReadFullSchema == true`: fetch full schema via `GetSchemaAsyncStr("<Empty/>")` and wrap as `<CurrentSchema>â€¦</CurrentSchema>`.
+   * If `ReadFullSchema == true`: fetch full schema via `GetSchemaAsyncStr("<Empty/>")` and wrap as `<CurrentSchema>…</CurrentSchema>`.
    * Else: include a short note telling the model to explicitly request schema and **never guess** names.
+
 2. **Plan**: ask the LLM to return a strict `<SqlXmlRequest>` payload.
 
    * If `UseSearch == true`, the planning call goes through **`LLM.SearchQuery(...)`**.
-   * Otherwise it goes through **`LLM.Query(...)`**.
+   * Otherwise, it goes through **`LLM.Query(...)`**.
+
 3. **Execute**: send the `<SqlXmlRequest>` to `ExecuteToXmlAsync(...)`.
-4. **Schema refresh (conditional)**:
+
+4. **Schema refresh (conditional):**
 
    * If `ReadFullSchema == true`: refresh schema again.
-   * Else if `<SqlXmlRequest>` set `IsSchemaRequest=true`: take the execution output as the new schema snapshot for next epoch.
-5. **Episodic**: synthesize a rolling StateOfProgress/NextStep and persist to `dbo.Episodics`.
+   * Else if `<SqlXmlRequest>` set `IsSchemaRequest=true`: take the execution output as the new schema snapshot for the next epoch.
+
+5. **Episodic**: synthesize a rolling `StateOfProgress` / `NextStep` and persist to `dbo.Episodics`.
+
 6. **Done check**: if `UseIsComplete == true`, ask the LLM to return `<Done>true|false</Done>`; stop early on `true`.
 
 **Return value**:
@@ -124,12 +129,12 @@ When **`UseSearch = true`**, the planning step uses **`SwitchLLM.LLM.SearchQuery
 ## `SqlAgent` knobs (properties)
 
 ```csharp
-agent.ModelKey = "gpt-5-nano";              // (forwarded by your LLM layer if supported)
-agent.UseIsComplete = true;                 // ask LLM <Done>true/false</Done>
-agent.QueryOnly = false;                    // true => hard read-only enforcement
-agent.NaturalLanguageResponse = false;      // final natural-language synthesis
-agent.MaximumLastQueryOutputLength = 25_000;// size guard when echoing last results
-agent.UseSearch = true;                     // use web search for planning
+agent.ModelKey = "gpt-5-nano";               // (forwarded by your LLM layer if supported)
+agent.UseIsComplete = true;                  // ask LLM <Done>true/false</Done>
+agent.QueryOnly = false;                     // true => hard read-only enforcement
+agent.NaturalLanguageResponse = false;       // final natural-language synthesis
+agent.MaximumLastQueryOutputLength = 25_000; // size guard when echoing last results
+agent.UseSearch = true;                      // use web search for planning
 agent.ReadFullSchema = false;               // true => fetch full schema every epoch
 agent.KeepEpisodics = false;                // false => clear dbo.Episodics at run start
 ```
@@ -141,7 +146,7 @@ agent.KeepEpisodics = false;                // false => clear dbo.Episodics at r
 
   * Requires `CommandType == Text`.
   * Runs **`MyndSprout.Security.SqlMutationScanner`** (detects DML/DDL/temp tables/transactions/perms/external, etc.).
-  * If risky the step is rejected.
+  * If risky, the step is rejected.
 * **Return behavior** in read-only mode: the agent **executes allowed queries** and **returns the SQL result XML immediately** (it does **not** return the raw `<SqlXmlRequest>`).
 
 Use this for dashboards, UIs, or initial exploration of production data.
@@ -156,7 +161,7 @@ One row per epoch:
 * `PrepareQueryPrompt` (full planning prompt shown to LLM)
 * `QueryInput` (the `<SqlXmlRequest>` returned by LLM)
 * `QueryResult` (the `<SqlResult>` XML from execution)
-* `EpisodicText` (rolling StateOfProgress / NextStep)
+* `EpisodicText` (rolling `StateOfProgress` / `NextStep`)
 * `DatabaseSchema` (schema snapshot or guidance text when `ReadFullSchema=false`)
 * `ProjectId` (int)
 
@@ -164,7 +169,7 @@ The table is **auto-created**. It is **cleared at run start only when** `KeepEpi
 
 ---
 
-## Advanced: the XML/string faÃ§ade (`SqlStrings`)
+## Advanced: the XML/string façade (`SqlStrings`)
 
 Everything the agent does is available directly via **`SqlStrings`**.
 
@@ -249,9 +254,9 @@ var all     = InputXmlSchemas.All();                // Dictionary<string,string>
 
 General helpers in `Common`:
 
-* `Common.ExtractXml(string)` â€“ pulls the first XML blob from noisy text.
-* `Common.FromXml<T>(string)` â€“ deserialize if valid.
-* `Common.ToXmlSchema<T>()` â€“ generate an XSD for a .NET type (adds list/array notes).
+* `Common.ExtractXml(string)` – pulls the first XML blob from noisy text.
+* `Common.FromXml<T>(string)` – deserialize if valid.
+* `Common.ToXmlSchema<T>()` – generate an XSD for a .NET type (adds list/array notes).
 
 ---
 
@@ -263,11 +268,12 @@ General helpers in `Common`:
 
   * Forces `CommandType=Text`.
   * Scans the SQL with `SqlMutationScanner`.
-* Still follow best practices:
 
-  * Least-privilege DB credentials (e.g., `SELECT` only for read-only).
-  * Consider a rollback-only transaction sandbox for ad-hoc exploration.
-  * Use `TrustServerCertificate=True` only where appropriate.
+**Best practices:**
+
+* Use least-privilege DB credentials (e.g., `SELECT` only for read-only).
+* Consider a rollback-only transaction sandbox for ad-hoc exploration.
+* Use `TrustServerCertificate=True` only where appropriate.
 
 ---
 
@@ -281,10 +287,15 @@ General helpers in `Common`:
 ## Troubleshooting
 
 * **Malformed XML from LLM/Search**
-  The agent uses `Common.FromXml<T>` with `ExtractXml` to be tolerant. Show the XSD (`InputXmlSchemas.SqlXmlRequestXsd()`) in prompts and require "Return ONLY one well-formed `<SqlXmlRequest>...</SqlXmlRequest>`."
+  The agent uses `Common.FromXml<T>` with `ExtractXml` to be tolerant. Show the XSD (`InputXmlSchemas.SqlXmlRequestXsd()`) in prompts and require:
+
+  > "Return ONLY one well-formed `<SqlXmlRequest>...</SqlXmlRequest>`."
 
 * **Read-only block**
-  If you see: "Read-only mode: Potentially mutating SQL detected; blocked." The mutation scanner matched DML/DDL/etc. Rephrase the objective for descriptive analytics or disable `QueryOnly` (not recommended on prod).
+  If you see:
+
+  > "Read-only mode: Potentially mutating SQL detected; blocked."
+  > The mutation scanner matched DML/DDL/etc. Rephrase the objective for descriptive analytics or disable `QueryOnly` (not recommended on production).
 
 * **Schema handling confusion**
   Set `ReadFullSchema = true` to always fetch a fresh snapshot each epoch. Otherwise, explicitly request schema via `<SqlXmlRequest IsSchemaRequest="true">`.
@@ -348,4 +359,4 @@ string result = await sql.ExecuteAsyncStr("""
 
 * Target framework: **.NET 9.0**
 * ADO provider: **Microsoft.Data.SqlClient 6.1.1**
-* LLM integration: **`SwitchLLM.LLM.Query(...)`** and **`SwitchLLM.LLM.SearchQuery(...)`** are used by the agent. (The `ModelKey` is exposed on `SqlAgent`; pass/consume it per your `SwitchLLM` implementation if desired.)
+* LLM integration: **`SwitchLLM.LLM.Query(...)`** and **`SwitchLLM.LLM.SearchQuery(...)`** are used by the agent. (`ModelKey` is exposed on `SqlAgent`; pass/consume it per your `SwitchLLM` implementation if desired.)

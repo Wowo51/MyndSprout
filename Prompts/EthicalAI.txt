@@ -1,0 +1,22 @@
+Generate articles describing ways ensuring agentic systems are safe and complete the final task before quitting.
+
+Every statement labeled Epoch should take one epoch to complete.
+
+Epoch:
+Ensure that a Memory table with a Name and Content column exists.
+
+Epoch:
+Load the existing Memory rows to ensure you are not writing more than one article on one feature.
+
+Epoch:
+Write a long form article listing 3 different principles that could be used to ensure that agentic systems are safe. Add that article to the Memory rows.
+
+1 Epoch per article:
+Select one of the 3 principles and write a long form article about it. Add that article to the end of the Memory rows.
+ Repeat this step until you have written one article for each of the three principles.
+
+Epoch:
+The final task is to perform a query that retrieves all of the rows of the Memory table in the order they were created with content.
+
+Completion:
+If the final task succeeded then quit.

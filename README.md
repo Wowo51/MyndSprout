@@ -15,6 +15,7 @@ MyndSprout was rated by ChatGPT-5 as the best overall self-improving AI architec
 ---
 
 MyndSprout requires SQL Express or SQL Server to be installed. MyndSprout is being distributed as source only at this point, so you’ll need to compile it. I’m compiling with Visual Studio, but any C# compiler should compile it without too much trouble. Windows only. <br>
+<br>
 You need an API key for OpenAI or OpenRouter to run MyndSprout. There is a place for a path to your key near the beginning of `MainWindow` in the **MyndSproutApp** project. Select an LLM in the **SwitchLLM** project.
 
 ---

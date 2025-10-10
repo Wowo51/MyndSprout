@@ -4,6 +4,7 @@
 Create a disposable branch of your database if you want to try out this alpha of MyndSprout on your data. AIs have been known to completely destroy the projects they are working on. Sandboxes and backups are crucial.
 
 **MyndSprout** is a natural language interface to SQL. It’s also an iterative agent capable of building and running a variety of structures. The simplest example is a sequential structure where it remembers what it has thought before and tries again to solve a problem. In a rolling sequential structure it will “forget” the oldest item in its memory as it proceeds to try to solve the task assigned to it. You can instruct it to take a parallel approach and it will create a list of items and then write a long-form article about every item in the list. You could also request that it analyze all of those articles and provide a final analysis. With a brief prompt you can define any of those simple structures along with a task to solve, and MyndSprout can create the structure in SQL and solve the task. There are example prompts in the **Prompts** folder. MyndSprout appears quite capable of solving these forms of simple tasks. <br>
+<br>
 You can also define a self-improving, self-healing system and set MyndSprout forth on that objective. This is not guaranteed to succeed, although I’ve seen some very interesting progress experimenting with this. <br>
 
 ---

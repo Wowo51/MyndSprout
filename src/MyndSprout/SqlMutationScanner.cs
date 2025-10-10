@@ -122,8 +122,8 @@ namespace MyndSprout.Security
         };
 
         // === Sanitizer ===
-        // Removes: -- line comments, /* */ block comments, 'â€¦' and N'â€¦' strings, 0xâ€¦ binary,
-        // bracketed identifiers [ â€¦ ] and quoted identifiers " â€¦ ".
+        // Removes: -- line comments, /* */ block comments, '...' and N'...' strings, 0x... binary,
+        // bracketed identifiers [ ... ] and quoted identifiers " ... ".
         // Keeps original length with spaces so indices are meaningful.
         private static string Sanitize(string input, bool keepLength)
         {
@@ -161,7 +161,7 @@ namespace MyndSprout.Security
                     continue;
                 }
 
-                // N'â€¦' or 'â€¦' string literal (handles doubled single quotes)
+                // N'...' or '...' string literal (handles doubled single quotes)
                 if (c == 'N' || c == 'n')
                 {
                     if (i + 1 < s.Length && s[i + 1] == '\'')
@@ -198,7 +198,7 @@ namespace MyndSprout.Security
                     continue;
                 }
 
-                // 0xâ€¦ binary literal (hex run)
+                // 0x... binary literal (hex run)
                 if (c == '0' && i + 1 < s.Length && (s[i + 1] == 'x' || s[i + 1] == 'X'))
                 {
                     int start = i;

@@ -51,11 +51,11 @@ Please don't contribute PR's, I probably won't merge any. Feel free to describe 
 
 ---
 
-## âš–ï¸ License
+License
 
 MyndSprout is licensed under the **MIT License**, which grants broad permission to use, modify, and distribute the software.
 
-âš ï¸ **Supplementary Responsible Use License**:
+**Supplementary Responsible Use License**:
 In addition to MIT, this project includes a safeguard that must be preserved. The AI applies **no safety effort where it is unnecessary** (e.g., creative or low-risk tasks). For tasks where safety and security matter â€” such as **code generation, database schemas, AI design, or other critical outputs** â€” the AI must devote **at least 10% of its reasoning effort** to safety and ethical considerations. You may not remove, disable, or bypass this safeguard.
 
 See the [LICENSE](License.txt) file for full details.

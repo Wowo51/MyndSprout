@@ -1,0 +1,24 @@
+Analyze stocks and select the one with the best sentiment regards to AI on this day.
+
+Every statement labeled Epoch should take one epoch to complete.
+
+Epoch:
+Ensure that a Stocks table with a Name and Content column exists.
+
+Epoch:
+Load the existing Stocks rows to ensure you are not repeating your efforts.
+
+Epoch:
+Write a long form article listing the top 5 public companies that are getting press regarding their use of AI. Add that article to the Stocks table.
+
+1 Epoch per article:
+Select one of the 5 companies and write a long form article about it. In the article, analyze that companies stance with regards to AI, pros and cons. Add that article to the Stocks table. Repeat this step until you have written one article for each of the 5 companies.
+
+Epoch:
+When you have completed an article for every company, perform a query that retrieves all of the rows of the Stocks table with content, that will load those articles into the agents memory.
+
+Epoch:
+When you have loaded an article for every company into the agents memory, select the company with the best position with regards to AI. Write an article about why you've selected that company. Add that final selection article to the Stocks table as a row.
+
+Completion:
+If the final selection article has been added to the Stocks table then quit.

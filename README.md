@@ -26,6 +26,20 @@ To use an existing database, load the database into SQL Express / SQL Server Loc
 
 ---
 
+Implementing ACE (Agentic Context Engineering).
+
+ChatGPT-5 ranked ACE #1 for context self-improvement. Thank you, Stanford, for publishing ACE.
+
+I implemented an “ACE-Lite” in ~30 minutes on MyndSprout. I asked ChatGPT-5 Thinking for a minimal ACE prompt, added a goal to improve SQL coding abilities, and kept the core ACE ideas to fit my local LLM’s limited context. If your model allows more tokens, you can likely run full ACE.
+
+MyndSprout generated the tables/SQL for ACE-Lite and began improving its SQL coding abilities without issues.
+
+To verify progress, export the tables (e.g., from SSMS), paste them into a chat AI, and inspect. OpenRouter supports larger pastes (about 1,000 free queries per day).
+
+MyndSprout can self-improve both context and code.
+
+---
+
 This is freshly published code; there will be bugs. I’m going to be focused on debugging MyndSprout over the next few days and weeks, so expect rapid fixes.
 
 ---

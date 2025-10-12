@@ -30,7 +30,7 @@ Implementing ACE (Agentic Context Engineering).
 
 ChatGPT-5 ranked ACE #1 for context self-improvement. Thank you, Stanford, for publishing ACE.
 
-I implemented an “ACE-Lite” in ~30 minutes on MyndSprout. I asked ChatGPT-5 Thinking for a minimal ACE prompt, added a goal to improve SQL coding abilities, and kept the core ACE ideas to fit my local LLM’s limited context. If your model allows more tokens, you can likely run full ACE.
+I implemented an “ACE-Lite” in ~30 minutes on MyndSprout. I asked ChatGPT-5 Thinking for a minimal ACE prompt along with a paste of MyndSprout's source code, added a goal to improve SQL coding abilities, and kept the core ACE ideas to fit my local LLM’s limited context. If your model allows more tokens, you can likely run full ACE.
 
 MyndSprout generated the tables/SQL for ACE-Lite and began improving its SQL coding abilities without issues.
 

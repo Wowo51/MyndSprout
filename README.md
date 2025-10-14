@@ -45,10 +45,13 @@ This is freshly published code; there will be bugs. I’m going to be focused on
 ---
 
 [MyndSprout Help](MyndSproutHelp.md) — How to compile and use the app (WPF GUI).
+
 [Sql Coder Help](SqlCoderHelp.md) — There is a self improving SqlCoder database in the Databases folder and an associated SqlCoder prompt in the Prompts folder. This is my best self improving database so far and it's a good place to start if you don't want to start MyndSprout from scratch. Highly recommended for those primarily using MyndSprout to perform database work. 
 
 Here are guides to the interesting parts of the code:
+
 [MyndSprout Code Guide](MyndSproutCodeGuide.md) — A guide to the core MyndSprout C# library.
+
 [SqlContain Code Guide](SqlContainCodeGuide.md) — A guide to a C# library that contains generated SQL code to the database for secure AI development.
 
 ---

@@ -32,7 +32,7 @@ namespace MyndSproutApp
         private int _maxEpochs = 10;
         private bool _createNewDatabase = true;
         private string? _serverConnectionString; // optional when creating new DB
-        private string _databaseName = "Bootstrap14";
+        private string _databaseName = "Bootstrap32";
         private string? _connectionString;       // used when CreateNewDatabase == false
         private string _prompt = "";
         private string _output = "";

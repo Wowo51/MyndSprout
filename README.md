@@ -1,7 +1,7 @@
 # MyndSprout
 
 **VITAL INFO:**
-Create a disposable branch of your database if you want to try out this alpha of MyndSprout on your data. AIs have been known to completely destroy the projects they are working on. Sandboxes and backups are crucial.
+Create a disposable branch of your database before using MyndSprout on your data. AI agents will reliably destroy the projects they are working on every now and then. Sandboxes and backups are crucial.
 
 **MyndSprout** is a natural language interface to SQL. It’s also an iterative agent capable of building and running a variety of structures. The simplest example is a sequential structure where it remembers what it has thought before and tries again to solve a problem. In a rolling sequential structure it will “forget” the oldest item in its memory as it proceeds to try to solve the task assigned to it. You can instruct it to take a parallel approach and it will create a list of items and then write a long-form article about every item in the list. You could also request that it analyze all of those articles and provide a final analysis. With a brief prompt you can define any of those simple structures along with a task to solve, and MyndSprout can create the structure in SQL and solve the task. There are example prompts in the **Prompts** folder. MyndSprout appears quite capable of solving these forms of simple tasks. <br>
 <br>
@@ -16,7 +16,7 @@ MyndSprout was rated by ChatGPT-5 as the best overall self-improving AI architec
 
 MyndSprout requires SQL Express or SQL Server to be installed. MyndSprout is being distributed as source only at this point, so you’ll need to compile it. I’m compiling with Visual Studio, but any C# compiler should compile it without too much trouble. Windows only. <br>
 <br>
-You need an API key for OpenAI or OpenRouter to run MyndSprout. There is a place for a path to your key near the beginning of `MainWindow` in the **MyndSproutApp** project. Select an LLM in the **SwitchLLM** project.
+You need an API key for OpenAI or OpenRouter to run MyndSprout. There is a place for a path to your key near the beginning of `MainWindow` in the **MyndSproutApp** project. Select an LLM in the **SwitchLLM** project. There's also a BackupPath variable in the SqlAgent class where you should put a path to save auto-backups to. MyndSprout will save it's work on a regular basis and restore to the last functioning database automatically when it wrecks the current database.
 
 ---
 
@@ -45,6 +45,7 @@ This is freshly published code; there will be bugs. I’m going to be focused on
 ---
 
 [MyndSprout Help](MyndSproutHelp.md) — How to compile and use the app (WPF GUI).
+[Sql Coder Help](SqlCoderHelp.md) — There is a self improving SqlCoder database in the Databases folder and an associated SqlCoder prompt in the Prompts folder. This is my best self improving database so far and it's a good place to start if you don't want to start MyndSprout from scratch. Highly recommended for those primarily using MyndSprout to perform database work. 
 
 Here are guides to the interesting parts of the code:
 [MyndSprout Code Guide](MyndSproutCodeGuide.md) — A guide to the core MyndSprout C# library.

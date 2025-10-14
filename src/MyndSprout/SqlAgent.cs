@@ -34,6 +34,10 @@ namespace MyndSprout
         public bool KeepEpisodics = false;
         public bool ReadFullSchema = false;
         public event Action? OnEpochEnd;
+        public int BackupInterval = 50;
+        public string BackupPath = @"";
+        private EpisodicsLogWriter _episodicsWriter = null!;
+
         public SqlStrings Sql { get; private set; }
 
         public SqlAgent(SqlStrings sqlStrings, int maxEpochs = 5)
@@ -57,6 +61,14 @@ namespace MyndSprout
             CallLog("Agent started.");
 
             if (string.IsNullOrWhiteSpace(prompt)) prompt = "No prompt provided.";
+
+            string defaultWriterConn = EpisodicsLogWriter.BuildDefaultWriterConnectionString(_sql.Database);
+
+            _episodicsWriter ??= await EpisodicsLogWriter.CreateForAgentAsync(
+                existingDbConn: _sql.Database,
+                episodicsWriterConnectionString: null,   // null => reuse LocalDB connection
+                log: CallLog
+            );
 
             await _sql.EnsureEpisodicsTableAsync();
 
@@ -125,6 +137,21 @@ namespace MyndSprout
                 sbSchema.AppendLine("Prefer parameterized SQL; no guessing.");
                 schemaXml = sbSchema.ToString();
             }
+
+            var backup = new AutoBackupManager(Sql, _sql.Database.Database, new AutoBackupSettings
+            {
+                EpochInterval = BackupInterval,
+                BackupDirectory = BackupPath, // or leave default
+                ProjectId = 1,                // or null for any
+                SystemName = "MyndSprout"
+            });
+
+            await EpisodicsLogWriter.RunBootstrapOnceAsync(
+                existingDbConn: _sql.Database,          // discovers DB name here
+                log: CallLog,                           // optional
+                adminConnString: null                   // or pass an admin conn string if you want
+            );
+
 
             string error = "";
             int epoch = 0;
@@ -220,7 +247,8 @@ namespace MyndSprout
                 epiRec.DatabaseSchema = schemaXml;
                 epiRec.EpochIndex = epoch;
                 epiRec.ProjectId = 1;
-                await _sql.SaveEpisodicAsync(epiRec);
+                //await _sql.SaveEpisodicAsync(epiRec);
+                await _episodicsWriter.SaveAsync(epiRec, ct);
 
                 if (ReadFullSchema)
                 {
@@ -239,6 +267,8 @@ namespace MyndSprout
                         queryOutput = "";
                     }
                 }
+
+                await backup.TickAsync(epoch, ct);
 
                 if (UseIsComplete && await IsCompleteAsync(prompt, episodicText, schemaXml, queryOutput, epoch, ct))
                 {
@@ -348,6 +378,7 @@ namespace MyndSprout
             instr.AppendLine("Write a NextStep that is a realistic step towards the objective.");
             instr.AppendLine("Do not write lengthy sql for the NextStep, write minimalist English specifications that provide all of the instructions needed to achieve the NextStep. Information in the LastQueryResult will be available along with those minimalist instructions when the sql is written so you do not need to restate the LastQueryResult info.");
             instr.AppendLine("Any information that does not belong in StateOfProgress or NextStep can be written in Miscellaneous.");
+            instr.AppendLine("If the LastQueryResult indicates that the same error has occurred as is described in the PriorEpisodic then the agent may be in an endless loop, try a completely different approach in the NextStep.");
             instr.AppendLine();
             instr.AppendLine("The rest of the information below is context:");
             instr.AppendLine();

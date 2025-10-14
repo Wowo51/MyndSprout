@@ -18,16 +18,24 @@ namespace SwitchLLM
 
         public async static Task<Response> SearchQuery(string prompt)
         {
-            var parts = DefaultSearchModelDescription.Split(',');
-            var developer = parts[0];
-            var modelKey = parts[1];
-            string hoster = "";
-            if (parts.Length >= 5)
+            try
             {
-                hoster = parts[5];
+                var parts = DefaultSearchModelDescription.Split(',');
+                var developer = parts[0];
+                var modelKey = parts[1];
+                string hoster = "";
+                if (parts.Length >= 5)
+                {
+                    hoster = parts[5];
+                }
+                (string response, double cost) = await OpenAILLM.LLM.SearchAsync(prompt, modelKey);
+                return new Response(true, response + Environment.NewLine + "Cost=" + cost);
             }
-            (string response, double cost) = await OpenAILLM.LLM.SearchAsync(prompt, modelKey);
-            return new Response(true, response + Environment.NewLine + "Cost=" + cost);
+            catch (Exception ex)
+            {
+                return new Response(false, "LLM call failed." + Environment.NewLine + ex.Message);
+            }
+
         }
 
         public async static Task<Response> Query(string prompt)
@@ -37,38 +45,46 @@ namespace SwitchLLM
 
         public async static Task<Response> Query(string prompt, string modelDescription)
         {
-            var parts = modelDescription.Split(',');
-            var developer = parts[0];
-            var modelKey = parts[1];
-            string hoster = "";
-            if (parts.Length >= 5)
+            try
             {
-                hoster = parts[5];
-            }
-            var additional = parts.Length > 6 ? parts[6] : null;
+                var parts = modelDescription.Split(',');
+                var developer = parts[0];
+                var modelKey = parts[1];
+                string hoster = "";
+                if (parts.Length >= 5)
+                {
+                    hoster = parts[5];
+                }
+                var additional = parts.Length > 6 ? parts[6] : null;
 
-            switch (developer)
+                switch (developer)
+                {
+                    case "Local":
+                        var localResponse = await localClient.QueryAsync(prompt);
+                        return new Response(true, localResponse);
+
+                    case "OpenAI":
+                        // Determine highLevel based on optional ReasoningLevel setting
+                        bool highLevel = false;
+                        if (additional != null && additional.StartsWith("ReasoningLevel"))
+                        {
+                            var setting = additional.Split('=')[1];
+                            highLevel = setting != "Low";
+                        }
+                        return await QueryOpenAI(prompt, modelKey, highLevel);
+
+                    case "OpenRouter":
+                        return await QueryOpenRouter(prompt, modelKey, hoster);
+
+                    default:
+                        return new Response(false, $"Unknown developer '{developer}' in DefaultModelDescription");
+                }
+            }
+            catch (Exception ex)
             {
-                case "Local":
-                    var localResponse = await localClient.QueryAsync(prompt);
-                    return new Response(true, localResponse);
-
-                case "OpenAI":
-                    // Determine highLevel based on optional ReasoningLevel setting
-                    bool highLevel = false;
-                    if (additional != null && additional.StartsWith("ReasoningLevel"))
-                    {
-                        var setting = additional.Split('=')[1];
-                        highLevel = setting != "Low";
-                    }
-                    return await QueryOpenAI(prompt, modelKey, highLevel);
-
-                case "OpenRouter":
-                    return await QueryOpenRouter(prompt, modelKey, hoster);
-
-                default:
-                    return new Response(false, $"Unknown developer '{developer}' in DefaultModelDescription");
+                return new Response(false, "LLM call failed." + Environment.NewLine + ex.Message);
             }
+
         }
 
 #pragma warning disable OPENAI001

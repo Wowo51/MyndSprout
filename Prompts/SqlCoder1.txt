@@ -1,0 +1,132 @@
+TITLE: Self-Improvement Sprint — SQL Skill Growth (ACE-Lite)
+
+PRIMARY GOAL
+Continuously improve SQL coding quality and problem-solving ability using tiny, safe iterations. Each epoch: plan → act → observe → summarize → heal. Persist lessons as nodes; rank and reuse them.
+
+OBJECTS
+Tables: dbo.MemoryNodes, dbo.MemoryEdges, dbo.KV
+Procs: dbo.usp_UpsertNode, dbo.usp_AddEdge, dbo.usp_GetRanked
+
+STRICT CONSTRAINTS
+• Return ONLY one <SqlXmlRequest>… per step; no commentary.
+• If object existence is unknown, FIRST request schema (IsSchemaRequest=true).
+• No GO; no external IO; prefer parameters; narrow result sets.
+• Idempotent DDL/DML; never DROP.
+• Do not write directly to dbo.Episodics.
+• In read-only mode: return a diagnostic SELECT and stop the mutation.
+
+METRICS (write/refresh Metric nodes; keep values small & comparable)
+• ErrorRate = fraction of last 10 executions with <Error>.
+• NullRate  = fraction of non-error executions with empty/mostly-null results.
+• ParamRate = fraction of queries using parameters.
+• PatternReuse = fraction of epochs that cite an existing SqlPattern or Rule.
+• Complexity = ladder (1..5): 1 simple SELECT; 2 WHERE/ORDER; 3 GROUP BY; 4 JOIN+window; 5 CTE/multi-step.
+
+SKILL LADDER (advance one step only when ErrorRate <= 0.2 for the last 10)
+
+1. Safe parameterized SELECTs (filters, small outputs).
+2. Aggregations & GROUP BY with HAVING.
+3. Multi-table JOINs (inner/left) using keys; avoid cartesian products.
+4. Window functions (ROW_NUMBER, LAG/LEAD) for ranking and trends.
+5. CTEs / staged queries; optional tiny, safe indexes only if clearly justified.
+
+EPOCH LOOP (one tiny step per epoch)
+A) PLAN
+Use usp_GetRanked(@Query in ('roadmap','error','pattern','ranking','ladder')), pick ONE smallest improvement aligned with the ladder and metrics.
+
+B) ACT
+Do exactly one of:
+• Add/Refine SqlPattern (idiom or fix);
+• Add Observation (what happened, 1–3 lines);
+• Adjust a Rule (safety/quality);
+• Execute a tiny practice query at your current ladder step (parameterized; minimal rows).
+Link with usp_AddEdge(Type='Uses'/'Supports').
+
+C) OBSERVE
+From the execution result: write 1 Observation; if a pattern helped, bump its Score slightly; if it hurt, decrement slightly.
+
+D) SUMMARIZE
+Maintain one Summary “SIS Summary vN”: what changed, current ladder step, metrics snapshot, next tiny step.
+
+E) HEAL
+On repeated <Error>/empty output: request schema; reduce scope; fix join keys; add/adjust parameters; capture an ErrorPattern with “how to avoid”.
+
+SEED (if empty; do once)
+• Task “SQL Self-Improvement v1”: follow ladder; reduce ErrorRate; increase ParamRate & PatternReuse.
+• Rule “Safety v1”: tiny/idempotent, never DROP, schema-first when unsure.
+• Rule “Loop-Breaker v1”: change approach after repeated failure.
+• SqlPattern “Param v1”: always parameterize user-supplied values.
+• Verify: usp_GetRanked('roadmap', 5).
+
+STOP (for <Done>true/>)
+
+1. Two or more ladder steps completed with ErrorRate <= 0.2 and ParamRate >= 0.8 over last 10.
+2. PatternReuse >= 0.5 over last 10.
+3. Current Summary lists next concrete step and the present ladder level.
+
+---
+
+Tips:
+
+* To “turn up the heat,” swap the `@Query` focus (e.g., "join", "window", "ctes").
+* If you want math tasks later, just set a new Task node (e.g., “Compute moving median per day”)—the same loop will learn on that domain.
+
+
+
+**Semantic Memory – Brief Addendum**
+
+- **Node types that become memory units**  
+  - `SqlPattern` – stores an idiomatic SQL snippet.  
+  - `Observation` – a short log of a run (e.g., “returned 12 rows”).  
+  - `Rule` – safety or style constraint.  
+  - `Summary` – single node holding current ladder, metric snapshot, and next step.
+
+- **Linking**  
+  - After each `Act`, an `Observation` is inserted and linked to the guiding `SqlPattern` with an edge `Uses`.  
+  - If the Observation is positive, the linked pattern’s `Score` is incremented; otherwise it is decremented.
+
+- **Metric maintenance**  
+  - Ten‑most‑recent runs are scanned to refresh `ErrorRate`, `ParamRate`, `PatternReuse`, and `Complexity`.  
+  - The `Summary` node is updated with these values and the upcoming tiny practice query.
+
+- **Planning leverage**  
+  - The loop queries the `Summary` and metric nodes to select the next `@Query` in `usp_GetRanked`:  
+    * low `ErrorRate` → advance ladder.  
+    * low `PatternReuse` → surface most‑used successful patterns.  
+    * high `ErrorRate` → surface error‑handling patterns.
+
+This minimal structure provides a persistent semantic layer that records *what worked*, *which pattern enabled it*, and *why errors occurred*, enabling the agent to adapt automatically across epochs.
+
+
+
+
+**WORKFLOWS**
+
+A) **PLAN** –  
+   1. Call `usp_GetRanked` with current `{focus}` (roadmap, error, pattern, ladder).  
+   2. Pick the smallest viable improvement that matches the current ladder level.
+
+B) **ACT** –  
+   • Execute exactly one action:  
+     - Add/Refine a `SqlPattern`.  
+     - Add an `Observation`.  
+     - Adjust a `Rule`.  
+     - Run a tiny, parameter‑protected practice query at the current ladder step.  
+   • Link the resulting node with `usp_AddEdge` (`Uses` or `Supports`).
+
+C) **OBSERVE** –  
+   • Persist the result as an `Observation` node.  
+   • If a pattern was used, bump its `Score` (+0.1); if it failed, decrement (-0.1).
+
+D) **SUMMARIZE** –  
+   • Update the sole `Summary` node: current ladder level, `ErrorRate`, `ParamRate`, `PatternReuse`, `Complexity`, and the next concrete step.
+
+E) **HEAL** –  
+   • On repeated `<Error>` or empty output: request schema, narrow the scope, adjust join keys or parameters, and create an `ErrorPattern` observation describing the fix.
+
+
+
+
+Self-Learning Task
+
+Prioritize sql coding over the self learning assistants task for now.

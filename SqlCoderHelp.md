@@ -1,6 +1,6 @@
 # SqlCoder Help - MyndSprout's SQL Generation Agent
 
-Welcome to the MyndSprout SqlCoder! This document explains how to effectively use our AI agent, which is designed to *continuously learn and improve its SQL coding abilities* through a unique self-improvement process we call ACE-Lite (Adaptive Code Evolution - Lite).
+Welcome to the MyndSprout SqlCoder! This document explains how to effectively use our AI agent, which is designed to *continuously learn and improve its SQL coding abilities* through a unique self-improvement process based on a minimalist implementation of ACE(Agentic Context engineering)..
 
 ## Interacting with MyndSprout: Your Prompt, Your Task
 
@@ -99,7 +99,7 @@ By presenting your needs this way, the AI integrates it into its learning loop.
 
 ## What is ACE-Lite and How Does it Learn?
 
-ACE-Lite is the engine behind MyndSprout's continuous improvement. It's an **Adaptive Code Evolution** framework that allows the AI to develop, refine, and apply SQL coding knowledge autonomously.
+ACE-Lite is the engine behind MyndSprout's continuous improvement.
 
 Here’s a breakdown for coders to understand the `SqlCoder`'s self-improving nature:
 

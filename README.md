@@ -10,7 +10,7 @@ You can also define a self-improving, self-healing system and set MyndSprout for
 ---
 
 Here's a comparison chart by ChatGPT-5. I got MyndSprout to develop a minimalist version of ACE(Agentic Context Engineering). The SqlCoder1 database contains that 'ACE-Lite'. That version is from a couple of days before this chart was made. You can dump the nodes and edges from that database to .txt and remove any unnecessary characters. You should then be able to replicate this and get similar figures by directing ChatGPT to the MyndSprout repo, providing the database dump, and requesting an analysis. Thank you for ACE Stanford, it seems to work quite well. MyndSprout can self improve both context and code.
-[Matrix](MatrixChart.png)
+![Matrix](MatrixChart.png)
 
 
 MyndSprout was rated by ChatGPT-5 as the best overall self-improving AI architecture.

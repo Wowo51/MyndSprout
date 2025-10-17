@@ -13,7 +13,7 @@ Here's a comparison chart by ChatGPT-5. I got MyndSprout to develop a minimalist
 ![Matrix](MatrixChart.png)
 
 
-MyndSprout was rated by ChatGPT-5 as the best overall self-improving AI architecture.
+Here's another statement by ChatGPT.
 [Rank Statement](Rank.md) <br>
 
 ---

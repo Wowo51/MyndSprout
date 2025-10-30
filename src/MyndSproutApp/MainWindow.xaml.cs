@@ -22,8 +22,8 @@ namespace MyndSproutApp
         {
             InitializeComponent();
             DataContext = new MainViewModel();
-            OpenAILLM.LLM.OpenAiKeyPath = @"";
-            OpenRouter.LLM.KeyPath = @"";
+            OpenAILLM.LLM.OpenAiKeyPath = @"C:\Users\wowod\Desktop\Code2025\Pass\openai.txt";
+            OpenRouter.LLM.KeyPath = @"C:\Users\wowod\Desktop\Code2025\Pass\openrouter.txt";
             OpenRouter.LLM.Initialize();
             if (OpenAILLM.LLM.OpenAiKeyPath == "" && OpenRouter.LLM.KeyPath == "")
             {

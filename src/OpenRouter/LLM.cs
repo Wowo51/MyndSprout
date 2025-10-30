@@ -90,6 +90,7 @@ namespace OpenRouter
                 var requestBody = new
                 {
                     model = modelKey,
+                    reasoning = new { effort = "high" },
                     messages = new[]
                     {
                         new { role = "user", content = prompt }

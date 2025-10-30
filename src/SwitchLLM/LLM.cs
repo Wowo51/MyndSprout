@@ -179,6 +179,8 @@ Local,microsoft/phi-4-reasoning-plus
 OpenRouter,deepseek/deepseek-chat-v3.1:free,$0.0,$0.0,64000,64000,deepinfra/fp4
 OpenRouter,deepseek/deepseek-chat-v3.1,$0.0,$0.0,64000,64000,chutes/fp8
 OpenRouter,qwen/qwen3-coder:free,$0.0,$0.0,64000,64000,chutes/fp8
+OpenRouter,openai/gpt-oss-20b:free,$0.0,$0.0,131000,131000,atlas-cloud/fp8
+OpenRouter,openai/gpt-oss-20b,$0.0,$0.0,131000,131000,novita/bf16
 ";
 
         //Anthropic,claude-sonnet-4-20250514,$3.00,$15.00,200000,64000

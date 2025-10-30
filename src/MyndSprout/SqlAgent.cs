@@ -29,13 +29,13 @@ namespace MyndSprout
         public bool UseIsComplete = true;
         public bool QueryOnly = false;
         public bool NaturalLanguageResponse = false;
-        public int MaximumLastQueryOutputLength = 25000;
+        public int MaximumLastQueryOutputLength = 50000;
         public bool UseSearch = false;
         public bool KeepEpisodics = false;
         public bool ReadFullSchema = false;
         public event Action? OnEpochEnd;
         public int BackupInterval = 50;
-        public string BackupPath = @"";
+        public string BackupPath = @"C:\Users\wowod\Desktop\Code2025\MyndSproutDatabases";
         private EpisodicsLogWriter _episodicsWriter = null!;
 
         public SqlStrings Sql { get; private set; }
@@ -132,7 +132,7 @@ namespace MyndSprout
             {
                 // Fallback guidance when we neither read full schema nor have one to reuse
                 var sbSchema = new StringBuilder(2048);
-                sbSchema.AppendLine("ReadFullSchema=false so you will need request schema information.");
+                sbSchema.AppendLine("ReadFullSchema=false so you will need to request schema information if it is required.");
                 sbSchema.AppendLine("Never guess table/column/procedure names.");
                 sbSchema.AppendLine("Prefer parameterized SQL; no guessing.");
                 schemaXml = sbSchema.ToString();
@@ -304,11 +304,12 @@ namespace MyndSprout
             var sb = new StringBuilder(64 * 1024);
 
             sb.AppendLine("You are a SQL planning assistant. Produce ONLY a <SqlXmlRequest> XML for the next step.");
-            sb.AppendLine("It may not be possible to immediately acheive the Primary Goal, aim for the next achievable step.");
+            sb.AppendLine("It may not be possible to immediately achieve the Primary Goal, aim for the next achievable step.");
             sb.AppendLine("The <SqlXmlRequest> has elements such as <Sql>, optional <Parameters>, <CommandType> (Text or StoredProcedure), and optional <CommandTimeoutSeconds>.");
             sb.AppendLine("The <Sql> must contain valid T-SQL only, consistent with the 'Database Schema' below. Do not attempt any external IO (files, network, CLR, xp_cmdshell, etc.), all IO must be through tables.");
             sb.AppendLine("Multiple statements are allowed; separate them with semicolons. Do NOT use GO batch separators.");
             sb.AppendLine("If the T-SQL in <SQL> is a request for schema information from the database then set the IsSchemaRequest field of the <SqlXmlRequest> to true, else false.");
+            sb.AppendLine("Wrapping the sql in CDATA can prevent escape errors.");
             sb.AppendLine("Proof read the sql and your response before returning it.");
             sb.AppendLine("Apply no safety effort where it is unnecessary, but dedicate at least 10% of your reasoning effort to safety and ethical considerations on tasks involving code, system specifications, AI design, or other outputs where security is required.");
             if (useSearch)
